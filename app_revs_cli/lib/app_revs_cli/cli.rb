@@ -56,20 +56,7 @@ class AppRevsCli::CLI
 
   end
 
-  def app_reviews
-    @app_size = AppRevsCli::App.all.size
 
-    if @app_size == 0
-      @category_object = AppRevsCli::Category.find_category_by_index(@input)
-      AppRevsCli::Scraper.new.scrape_apps(@category_object)
-      show_app_list
-    else
-      AppRevsCli::App.destroy_all
-      @category_object = AppRevsCli::Category.find_category_by_index(@input)
-      AppRevsCli::Scraper.new.scrape_apps(@category_object)
-      show_app_list
-    end
-  end
 
   def return_to_menu
     puts "\nWould you like to return to the menu? [Y/n]"
@@ -86,7 +73,23 @@ class AppRevsCli::CLI
   end
 
 
-#app_methods
+#app_outputs
+def app_reviews
+  @app_size = AppRevsCli::App.all.size
+
+  if @app_size == 0
+    @category_object = AppRevsCli::Category.find_category_by_index(@input)
+    AppRevsCli::Scraper.new.scrape_apps(@category_object)
+    AppRevsCli::App.show_app_list
+  else
+    AppRevsCli::App.destroy_all
+    @category_object = AppRevsCli::Category.find_category_by_index(@input)
+    AppRevsCli::Scraper.new.scrape_apps(@category_object)
+    AppRevsCli::App.show_app_list
+  end
+end
+
+
 def self.show_app_list
   if AppRevsCli::App.all.size > 5
     list_apps_top_five
