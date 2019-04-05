@@ -56,23 +56,6 @@ class AppRevsCli::CLI
 
   end
 
-
-
-  def return_to_menu
-    puts "\nWould you like to return to the menu? [Y/n]"
-    input = gets.strip.downcase
-
-    if input == "y"
-      menu
-    elsif input == "n"
-      exit_message
-    else
-      puts "\nInvalid input please enter 'y' or 'n'"
-      return_to_menu
-    end
-  end
-
-
 #app_outputs
 def app_reviews
   @app_size = AppRevsCli::App.all.size
@@ -138,9 +121,25 @@ end
 
 
 #Utility_methods
-  def exit_message
-    puts "\nThanks for using AppRevs"
+def return_to_menu
+  puts "\nWould you like to return to the menu? [Y/n]"
+  input = gets.strip.downcase
+
+  if input == "y"
+    menu
+  elsif input == "n"
+    exit_message
+  else
+    puts "\nInvalid input please enter 'y' or 'n'"
+    return_to_menu
   end
+end
+
+
+
+def exit_message
+  puts "\nThanks for using AppRevs"
+end
 
   def view_more_apps
     puts "\nview remaining #{AppRevsCli::App.all.size-6} apps? [Y/n]"
