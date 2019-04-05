@@ -62,12 +62,12 @@ class AppRevsCli::CLI
     if @app_size == 0
       @category_object = AppRevsCli::Category.find_category_by_index(@input)
       AppRevsCli::Scraper.new.scrape_apps(@category_object)
-      AppRevsCli::App.show_app_list
+      show_app_list
     else
       AppRevsCli::App.destroy_all
       @category_object = AppRevsCli::Category.find_category_by_index(@input)
       AppRevsCli::Scraper.new.scrape_apps(@category_object)
-      AppRevsCli::App.show_app_list
+      show_app_list
     end
   end
 
@@ -88,7 +88,7 @@ class AppRevsCli::CLI
 
 #app_methods
 def self.show_app_list
-  if @@all.size > 5
+  if AppRevsCli::App.all.size > 5
     list_apps_top_five
   else
     list_apps_with_detail
@@ -96,13 +96,13 @@ def self.show_app_list
 end
 
 def self.list_apps
-  @@all.each.with_index(1) do |app, index|
+  AppRevsCli::App.all.each.with_index(1) do |app, index|
     puts "#{index}) #{app.name}"
   end
 end
 
 def self.list_apps_with_detail
-  @@all.each.with_index(1) do |app, index|
+  AppRevsCli::App.all.each.with_index(1) do |app, index|
     puts "\n"
     puts "#{index}) #{app.name}"
     puts "Category: #{app.category.chomp("Software")}"
@@ -112,7 +112,7 @@ def self.list_apps_with_detail
 end
 
 def self.list_apps_top_five
-  first_five = @@all.first(5)
+  first_five = AppRevsCli::App.all.first(5)
   first_five.each.with_index(1) do |app, index|
     puts "\n"
     puts "#{index}) #{app.name}"
@@ -123,7 +123,7 @@ def self.list_apps_top_five
 end
 
 def self.list_remaining_apps
-  remaining_apps = @@all[5..-1]
+  remaining_apps = AppRevsCli::App.all[5..-1]
   remaining_apps.each.with_index(1) do |app, index|
     puts "\n#{index+5}) #{app.name}"
     puts "Category: #{app.category.chomp("Software")}"
